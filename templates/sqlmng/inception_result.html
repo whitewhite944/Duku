@@ -1,0 +1,126 @@
+{% extends 'cmdb/base.html' %}
+
+{% block title %}
+| Inception_Result
+{% endblock title %}
+
+{% block content %}
+<div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>SQL Result</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">SQL Result</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title" style="margin-top: 4px;">SQL处理信息表</h3>
+                </div>
+                <div class="card-body">
+                  <table class="table table-bordered">
+                    <thead>                  
+                      <tr style="font-size: 14px;">
+                        <th style="width: 10px">#</th>
+                        <th>提交时间</th>
+                        <th>提交人</th></th>
+                        <th>环境</th>
+                        <th>数据库</th>
+                        <th>SQL语句</th>
+                        <th>语法检查</th>
+                        <th>执行人</th>
+                        <th>状态</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody style="font-size: 14px;" id="forexcute_sql">
+                      {% for obj in paginator_data.object_list %}
+                      <tr class="status">
+                        <td>{{ obj.id }}</td>
+                        <td>{{ obj.create_time | date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ obj.committer }}</td>
+                        <td>
+                        {% if obj.env == 1 %}
+                            <span class="badge badge-primary">生产</span>
+                        {% elif obj.env == 2 %}
+                            <span class="badge badge-info">测试</span>                                    
+                        {% endif %}                              
+                        </td>   
+                        <td>{{ obj.db_name }}</td>
+                        <td>{{ obj.sql_content | slice:"30" }}.....<button type="button" class="btn bg-gradient-info btn-xs edit-btn" style="float: right;" inception_sql="{{obj.sql_content}}">详情</button></td> 
+                        <td><img src="/static/images/reviewok.png" width="22px" height="22px"> 通过</td>
+                        <td>{{ obj.treater }}</td>
+                        <td>
+                        {% if obj.status == 0 %}
+                          <img src="/static/images/excuted.png">执行成功
+                        {% elif obj.status == 1 %}
+                          <img src="/static/images/canceled.png"> 已放弃
+                        {% elif obj.status == 2 %}
+                          <img src="/static/images/excutefail.png">执行失败
+                        {% elif obj.status == -1 %}
+                          <img src="/static/images/forexcute.png"> 待执行
+                        {% elif obj.status == -2 %}
+                          <img src="/static/images/rollback.gif">已回滚             
+                        {% endif %}                            
+                        </td>
+                        <td>{{ obj.remark }}<button type="button" class="btn bg-gradient-info btn-xs remark-btn sqlaction" style="float: right;" inception_remark="{{obj.remark}}">详情</button></td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success btn-xs sqlaction" actiontype="execute" inception_id="{{obj.id}}">执行</button>
+                                <button type="button" class="btn btn-success dropdown-toggle btn-xs" data-toggle="dropdown">
+                                  <div class="dropdown-menu" role="menu" style="min-width:100%;">
+                                    <a class="dropdown-item sqlaction" actiontype="canceled" href="#" style="font-size: .75rem;" inception_id="{{obj.id}}">舍弃</a>
+                                    <a class="dropdown-item sqlaction" actiontype="rollback" href="#" style="font-size: .75rem;" inception_id="{{obj.id}}">回滚</a>
+                                  </div>
+                                </button>
+                            </div>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+
+                  </table>
+                </div>
+                <div class="card-footer clearfix">
+                  <ul class="pagination pagination-sm m-0 float-right">
+                  {% if paginator_data.has_previous %}
+                        <li class="page-item"><a class='page-link paginator' href='?page={{ paginator_data.previous_page_number }}&search={{search}}'>&laquo;</a></li>
+                  {% endif %}
+
+                  {% for page in paginator_data.paginator.page_range %}
+                      {% if paginator_data.number == page %}
+                          <li class="page-item"><a class="page-link paginator" id="currentpage">{{ page }}</a></li>
+                      {% else %}
+                          <li class="page-item"><a class='page-link paginator' href='?page={{ page }}&search={{search}}' title='{{ page }}'>{{ page }}</a></li>
+                      {% endif %}
+                  {% endfor %}
+
+                  {% if paginator_data.has_next %}
+                      <li class="page-item"><a class='page-link paginator' href='?page={{ paginator_data.next_page_number }}&search={{search}}'>&raquo;</a></li>
+                  {% endif %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <section>
+</div>
+{% include 'sqlmng/inception_modal.html' %}
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/inception.js' %}"></script>
+{% endblock js %}    
