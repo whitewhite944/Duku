@@ -8,11 +8,11 @@
   <title>Duku{% block title %}{% endblock title %}</title>
 
   <link rel="stylesheet" href="{% static 'adminlte/fontawesome-free/css/all.min.css' %}">
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
+  <!-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css"> -->
   <link rel="stylesheet" href="{% static 'adminlte/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
   <link rel="stylesheet" href="{% static 'adminlte/css/adminlte.min.css' %}">
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> -->
   {% block head %}{% endblock head %}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -152,6 +152,12 @@
                   <p>数据库配置</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{% url 'sqlmng:optimize_check' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>SQL优化</p>
+                </a>
+              </li>
               <li class="nav-item has-treeview menu-open">
                 <a href="#" class="nav-link active">
                   <i class="nav-icon fas fa-inbox"></i>
@@ -179,7 +185,8 @@
           </li>
         </ul>
       </nav>
-
+      
+      {% if user.is_superuser %}
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item has-treeview menu-close">
@@ -206,7 +213,8 @@
             </ul>
           </li>
         </ul>
-      </nav>
+      </nav>        
+      {% endif %}
 
     </div>
   </aside>

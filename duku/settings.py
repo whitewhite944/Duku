@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.account',
     'apps.cmdb',
     'apps.sqlmng',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -153,3 +154,6 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+OPTIMIZE_IP = '127.0.0.1'
+OPTIMIZE_BIN = '/home/test/soar'

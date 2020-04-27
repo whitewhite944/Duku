@@ -137,7 +137,6 @@ Rack.prototype.listenGetApiIdc = function () {
         dataType: 'json',
         success: function (result) {
             data = result.data;
-            console.log(data);
             options = "";
             for (const obj of data) {
                 option = '<option id='+obj.id+'>'+obj.name+'</option>';

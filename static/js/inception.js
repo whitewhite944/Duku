@@ -158,10 +158,11 @@ Inception.prototype.listenHandleResult = function () {
                 data: data,
                 dataType: 'json',
                 success: function (result) {
+                    console.log(result);
                     status = result.status;
                     message = result.message;
                     if (status == 0) {
-                        $("#forexcute_sql").load("/sqlmng/inception_result/ .status", function () {
+                        $("#forexcute_sql").load(location.href + "/sqlmng/inception_result/ .status", function () {
                             self.showInformation();
                             self.listenHandleResult();
                         });
@@ -175,7 +176,7 @@ Inception.prototype.listenHandleResult = function () {
                         }
                         errorModal.modal();
                         errorContent.html(html);
-                        $("#forexcute_sql").load("/sqlmng/inception_result/ .status", function () {
+                        $("#forexcute_sql").load(location.href + "/sqlmng/inception_result/ .status", function () {
                             self.showInformation();
                             self.listenHandleResult();
                         });
@@ -189,7 +190,7 @@ Inception.prototype.listenHandleResult = function () {
                         }
                         errorModal.modal();
                         errorContent.html(html);
-                        $("#forexcute_sql").load("/sqlmng/inception_result/ .status", function () {
+                        $("#forexcute_sql").load(location.href + "/sqlmng/inception_result/ .status", function () {
                             self.showInformation();
                             self.listenHandleResult();
                         });
@@ -208,7 +209,7 @@ Inception.prototype.listenHandleResult = function () {
                     status = result.status;
                     message = result.message;
                     if (status == -2) {
-                        $("#forexcute_sql").load("/sqlmng/inception_result/ .status", function () {
+                        $("#forexcute_sql").load(location.href + "/sqlmng/inception_result/ .status", function () {
                             self.showInformation();
                             self.listenHandleResult();
                         });
@@ -222,7 +223,7 @@ Inception.prototype.listenHandleResult = function () {
                         }
                         errorModal.modal();
                         errorContent.html(html);
-                        $("#forexcute_sql").load("/sqlmng/inception_result/ .status", function () {
+                        $("#forexcute_sql").load(location.href + "/sqlmng/inception_result/ .status", function () {
                             self.showInformation();
                             self.listenHandleResult();
                         });
@@ -241,7 +242,7 @@ Inception.prototype.listenHandleResult = function () {
                     status = result.status;
                     message = result.message;
                     if (status == 1) {
-                        $("#forexcute_sql").load("/sqlmng/inception_result/ .status", function () {
+                        $("#forexcute_sql").load(location.href + "/sqlmng/inception_result/ .status", function () {
                             self.showInformation();
                             self.listenHandleResult();
                         });
@@ -255,7 +256,7 @@ Inception.prototype.listenHandleResult = function () {
                         }
                         errorModal.modal();
                         errorContent.html(html);
-                        $("#forexcute_sql").load("/sqlmng/inception_result/ .status", function () {
+                        $("#forexcute_sql").load(location.href + "/sqlmng/inception_result/ .status", function () {
                             self.showInformation();
                             self.listenHandleResult();
                         });
