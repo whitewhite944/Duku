@@ -1,0 +1,152 @@
+<div class="modal fade" id="create_user_modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="width: 500px;top: 50%;margin-top: 30%;">
+        <div class="modal-header">
+        <h4 class="modal-title" style="font-size: 16px;">创建USER</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <div style="margin-top: 20px; font-size: 14px;">
+            <form class="form-horizontal" onsubmit="return false;">
+                <div class="form-group" style="display: flex;">
+                    <label for="create_group_name" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>属组:</label>
+                    <div class="col-sm-8">
+                        <span name="create_group_id" style="display: none;"></span>
+                        <select class="form-control form-control-sm" id="create_group_name">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="create_user_role" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>选择角色:</label>
+                    <div class="col-sm-8">
+                        <span name="create_group_id" style="display: none;"></span>
+                        <select class="form-control form-control-sm" id="create_user_role">
+                            <option role_id="1">总监</option>
+                            <option role_id="2">经理</option>                            
+                            <option role_id="3">研发</option>                            
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="create_user_name" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>用户名:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_group_id" style="display: none;"></span>
+                        <input type="text" class="form-control form-control-sm" placeholder="" id="create_user_name" name="create_user_name">
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="create_user_password" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>密码:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_group_id" style="display: none;"></span>
+                        <input type="password" class="form-control form-control-sm" placeholder="" id="create_user_password" name="create_user_password">
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="create_superuser" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>超级用户:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_group_id" style="display: none;"></span>
+                        <select class="form-control form-control-sm" id="create_superuser">
+                            <option status_id="1">是</option>
+                            <option status_id="0">否</option>                           
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="create_remark" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>备注:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_group_id" style="display: none;"></span>
+                        <input type="text" class="form-control form-control-sm" placeholder="" id="create_remark" name="create_remark">
+                    </div>
+                </div>
+            </form>  
+        </div>  
+        </div>
+        <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-primary btn-sm close_user_btn" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary btn-sm create_user_btn">提交</button>
+        </div>
+    </div>  
+    </div>
+</div>
+
+<div class="modal fade" id="edit_user_modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+    <div class="modal-content" style="width: 500px; top: 50%;margin-top: 30%;">
+        <div class="modal-header">
+        <h4 class="modal-title" style="font-size: 16px;">修改USER</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <div style="margin-top: 20px; font-size: 14px;">
+            <form class="form-horizontal" onsubmit="return false;">
+                <div class="form-group" style="display: none;">
+                    <label for="edit_user_id" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>USER ID:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_user_id" style="display: none;"></span>
+                        <input type="text" class="form-control form-control-sm" placeholder="" id="edit_user_id" name="edit_user_id">
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="edit_group_name" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>属组:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_group_id" style="display: none;"></span>
+                        <select class="form-control form-control-sm" id="edit_group_name">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="edit_user_role" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>选择角色:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_group_id" style="display: none;"></span>
+                        <select class="form-control form-control-sm" id="edit_user_role">
+                            <option role_id="1">总监</option>
+                            <option role_id="2">经理</option>                            
+                            <option role_id="3">研发</option>                            
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="edit_user_name" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>用户名:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_group_id" style="display: none;"></span>
+                        <input type="text" class="form-control form-control-sm" placeholder="" id="edit_user_name" name="edit_user_name">
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="edit_user_password" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>密码:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_group_id" style="display: none;"></span>
+                        <input type="password" class="form-control form-control-sm" placeholder="" id="edit_user_password" name="edit_user_password">
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="edit_superuser" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>超级用户:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_group_id" style="display: none;"></span>
+                        <select class="form-control form-control-sm" id="edit_superuser">
+                            <option status_id="1">是</option>
+                            <option status_id="0">否</option>                           
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex;">
+                    <label for="edit_remark" class="col-sm-3 control-label" style="margin-right: -30px;"><span style="color:red; margin-right:10px">*</span>备注:</label>
+                    <div class="col-sm-8">
+                        <span name="edit_group_id" style="display: none;"></span>
+                        <input type="text" class="form-control form-control-sm" placeholder="" id="edit_remark" name="edit_remark">
+                    </div>
+                </div>
+            </form>  
+        </div>  
+        </div>
+        <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-primary btn-sm edit-user-close" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary btn-sm edit-user-submit">提交</button>
+        </div>
+    </div>  
+    </div>
+</div> 

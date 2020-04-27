@@ -1,0 +1,104 @@
+{% extends 'cmdb/base.html' %}
+
+{% block title %}
+| OPTIMIZE_CHECK
+{% endblock title %}
+
+{% block content %}
+<div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>SQL OPTIMIZE</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">SQL OPTIMIZE</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header" style="background-color: #555edd;">
+                  <h3 class="card-title" style="margin-top: 4px; color: #fff;font-size: 14px;">请输入需要优化的SQL语句</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-7">
+                          <div class="form-group">
+                            <textarea class="form-control" id="sqlcontent" rows="12" placeholder="SQL语句...." style="font-size: 14px;"></textarea>
+                            <br>
+                            <input id="remark" type="text" class="form-control form-control-sm" placeholder="备注" />
+                          </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div style="margin-right:20%;margin-top: 60px;">
+                                <div class="row">
+                                    <div class="col-sm-2" style="margin-left: 10%;"> 
+                                        <span style="font-size:16px; color:#555edd; font-weight:bold;font-size: 15px;">环境</span>
+                                    </div>
+                                    <div class="col-sm-7" style="margin-left: 10%;">
+                                        <label style="margin-right:20%">
+                                            <input value="2" name="form-field-radio" type="radio" class="ace"/>
+                                            <span class="lbl" style="font-size: 15px;">测试</span>
+                                        </label>
+                                        <label>
+                                            <input value="1" name="form-field-radio" type="radio" class="ace"/>
+                                            <span class="lbl" style="font-size: 15px;">生产</span>
+                                        </label>
+                                    </div>
+                                    </br>                                 
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2" style="margin-left: 10%; bottom: -15px;"> 
+                                        <span style="font-size:16px; color:#555edd; font-weight:bold;font-size: 15px;">数据库:</span>
+                                    </div>
+                                    <div class="col-sm-7" style="margin-left: 10%; bottom: -10px;">
+                                        <select id='dbname' class="form-control form-control-sm" >
+                                        </select>
+                                    </div>
+                                    </br>                                 
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-sm-2" style="margin-left: 10%; bottom: -10px;"> 
+                                        <span style="font-size:16px; color:#555edd; font-weight:bold;font-size: 15px;">执行人:</span>
+                                    </div>
+                                    <div class="col-sm-7" style="margin-left: 10%; bottom: -10px;">
+                                        <select id='treater' class="form-control form-control-sm" >
+                                        </select>
+                                    </div>
+                                    </br>                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>             
+                </div>
+                <div class="card-footer" style="background-color: #fff;">
+                    <div class="col-md-offset-0 col-md-12" style="margin-left:15%">
+                        <button id='check' style="margin-top:-30px;width: 4%;" class="btn btn-block bg-gradient-primary btn-sm btn-sumbit" type="submit">
+                            提交
+                        </button>
+                        <button id='check' style="margin-top:-30px;width: 4%;margin-left:15%" class="btn btn-block bg-gradient-secondary btn-sm btn-reset" type="submit">
+                            清空
+                        </button>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <section>
+</div>
+{% include 'sqlmng/inception_modal.html' %}
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/optimize.js' %}"></script>
+{% endblock js %}

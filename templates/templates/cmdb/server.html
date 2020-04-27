@@ -1,0 +1,95 @@
+{% extends 'cmdb/base.html' %}
+{% block title %}
+| Server
+{% endblock title %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+<div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Server</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'cmdb:idc' %}">Home</a></li>
+              <li class="breadcrumb-item active">Server</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title" style="margin-top: 4px;">服务器信息</h3>
+                  <button type="button" class="btn btn-primary float-right btn-sm" id="add">添加服务器</button>
+                </div>
+                <div class="card-body">
+                  <table class="table table-bordered">
+                    <thead>                  
+                      <tr style="font-size: 14px;">
+                        <th style="width: 10px">#</th>
+                        <th>主机名</th>
+                        <th>所属机柜</th>
+                        <th>IP</th>
+                        <th>业务线</th>
+                        <th>状态</th>
+                        <th>采集信息</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody style="font-size: 14px;">
+                      {% for obj in paginator_data.object_list %}
+                      <tr data-id="{{ obj.id }}" data-name="{{ obj.name }}" data-cpu="{{ obj.cpu }}" data-memory="{{ obj.memory }}" data-disk="{{ obj.disk }}" data-ip="{{ obj.ip }}" data-uuid="{{ obj.uuid }}" data-business="{{ obj.business }}" data-status="{{ obj.status }}" data-daq="{{ obj.daq }}" data-remark="{{ obj.remark }}">
+                        <td>{{ obj.id }}</td>
+                        <td>{{ obj.name }}</td>
+                        <td>{{ obj.rack.name }}</td>
+                        <td>{{ obj.ip }}</td>
+                        <td>{{ obj.business }}</td>
+                        <td>
+                          {% if obj.status == 0 %}
+                            <span class="badge badge-warning">下线</span>                             
+                          {% else %}
+                            <span class="badge badge-success">上线</span>   
+                          {% endif %}
+                        </td>
+                        <td>
+                            <button type="button" class="btn bg-gradient-info btn-xs show-btn">信息</button>                          
+                        </td>
+                        <td>{{ obj.remark }}</td>
+                        <td>
+                            <button type="button" class="btn bg-gradient-warning btn-xs edit-btn">编辑</button>
+                            <button type="button" class="btn bg-gradient-danger btn-xs delete-btn">删除</button>
+                        </td>
+                      </tr>
+                      {% endfor %}                        
+                    </tbody>
+                  </table>
+                </div>
+                <div class="card-footer clearfix">
+                  <ul class="pagination pagination-sm m-0 float-right">
+                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <section>   
+</div>
+{% include 'cmdb/server_modal.html' %}         
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/server.js' %}"></script>  
+{% endblock js %}
