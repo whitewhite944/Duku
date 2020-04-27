@@ -6,10 +6,11 @@ from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import Group
+from django.utils.decorators import method_decorator
 
 from .forms import LoginForm,RegisterForm
 from apps.utils import restful
-from .models import User
+from .models import *
 from apps.utils import wrappers
 from apps.utils.baseview import *
 # Create your views here.
@@ -66,16 +67,18 @@ class LogoutView(View):
         return HttpResponseRedirect(reverse("login"))   
 
 
-class UserView(BaseListView):
+class UserView(BaseAccountListView):
 
     model = User
     template_name = 'account/user.html'
 
+    @wrappers.control_permission
     def get_queryset(self):
         queryset = self.model.objects.all()
         search = self.request.GET.get('search')
         if search:
             queryset = queryset.filter(username__contains=search)
+        queryset = [user.to_dict for user in queryset]    
         return queryset
 
     @wrappers.handle_save_data
@@ -89,7 +92,7 @@ class UserView(BaseListView):
         group_qs = Group.objects.filter(name=group_name)
         if group_qs:
             user.groups.add(group_qs[0])
-        return JsonResponse({'status': 1})
+        return restful.ok()
 
     @wrappers.handle_save_data
     def put(self, request, *args, **kwargs):
@@ -107,22 +110,23 @@ class UserView(BaseListView):
         group_qs = Group.objects.filter(name=group_name)
         if group_qs:
             user.groups.set([group_qs[0]])
-        return JsonResponse({'status': 1})
+        return restful.ok()
 
 
-class GroupView(BaseListView):
+class GroupView(BaseAccountListView):
 
     model = Group
     template_name = 'account/group.html'
 
+    @wrappers.control_permission
     def get_queryset(self):
         queryset = self.model.objects.order_by('-id')
         search = self.request.GET.get('search')
         if search:
             queryset = queryset.filter(name__contains=search)
         return queryset
-
-
+        
+        
 class APIGroupView(BaseApiView):
 
     model = Group

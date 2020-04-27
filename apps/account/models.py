@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import Group
 
 # Create your models here.
 
@@ -17,7 +18,7 @@ class User(AbstractUser):
     remark = models.CharField(max_length=128, default='', blank=True)
 
     class Meta:
-        db_table = 'user'
+        db_table = 'users'
         verbose_name = "用户表"
         verbose_name_plural = verbose_name
         verbose_name_plural = u'用户'
@@ -35,3 +36,4 @@ class User(AbstractUser):
         group = self.groups.first()
         ret['group'] = group.name if group else ''
         return ret    
+          

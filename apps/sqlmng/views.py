@@ -3,6 +3,7 @@ from django.views.generic import TemplateView, ListView
 from django.http import JsonResponse, QueryDict
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.conf import settings
 from django.db.models import Q
 
 from .models import *
@@ -10,7 +11,8 @@ from apps.utils import restful
 from apps.utils.inception_tool import inception_status,rollback_data
 from apps.utils.baseview import *
 from apps.utils import wrappers
-import re
+from apps.utils.dbcrypt import *
+import subprocess
 
 # Create your views here.
 
@@ -22,6 +24,26 @@ class DBConfView(BaseListView):
     def get_queryset(self):
         queryset = self.model.objects.all()
         return queryset
+
+    @wrappers.handle_save_data
+    def post(self, request, *args, **kwargs):
+        data = QueryDict(request.body).dict()
+        password = data.get('password')
+        cry_password = prpcrypt.encrypt(password)
+        data['password'] = cry_password
+        self.model.objects.create(**data)
+        return restful.ok()  
+    
+    @wrappers.handle_save_data
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        data = QueryDict(request.body).dict()
+        password = data.get('password')
+        obj = self.model.objects.get(pk=pk)
+        if obj.password != password:
+            data['password'] = prpcrypt.encrypt(password)
+        self.model.objects.filter(pk=pk).update(**data)
+        return restful.ok()         
 
 
 class InceptionCheckView(BaseListView):
@@ -36,8 +58,9 @@ class InceptionCheckView(BaseListView):
         treater = data.get('treater')
         sql_content = data.get('sql_content')
         remark = data.get('remark')
-        object_db = self.db_model.objects.get(name=db_name, env=env)               
-        db_conn = '--user=%s;--password=%s;--host=%s;--port=%s;--check=1;' %(object_db.user, object_db.password, object_db.address, object_db.port)
+        object_db = self.db_model.objects.get(name=db_name, env=env)
+        password = prpcrypt.decrypt(object_db.password)        
+        db_conn = '--user=%s;--password=%s;--host=%s;--port=%s;--check=1;' %(object_db.user, password, object_db.address, object_db.port)
         status, result = inception_status(db_conn, db_name, sql_content)
         error_info = []
         if status == -1:
@@ -111,7 +134,8 @@ class InceptionResultView(BaseListView):
         db_name = object_pk.db_name
         sql_content = object_pk.sql_content
         object_db = self.db_model.objects.get(name=db_name, env=env)
-        db_conn = '--user=%s;--password=%s;--host=%s;--port=%s;--execute=1;--backup=1;' %(object_db.user, object_db.password, object_db.address, object_db.port)
+        password = prpcrypt.decrypt(object_db.password)
+        db_conn = '--user=%s;--password=%s;--host=%s;--port=%s;--execute=1;--backup=1;' %(object_db.user, password, object_db.address, object_db.port)
         ret = {'status': 0}
         if action_type == 'execute':
             status, result = inception_status(db_conn, db_name, sql_content)
@@ -143,7 +167,7 @@ class InceptionResultView(BaseListView):
                 per_rollback = rollback_data(rollback_content)
                 for sqls in per_rollback:
                     rollback_sqls += sqls[0]
-            status, result = inception_status(db_conn, db_name, sql_content)
+            status, result = inception_status(db_conn, db_name, rollback_sqls)
             object_pk.status = -2
             rollback_affected_rows = len(result) - 1
             object_pk.roll_affected_rows = rollback_affected_rows
@@ -153,3 +177,29 @@ class InceptionResultView(BaseListView):
             ret['status'] = 1
         object_pk.save()                
         return JsonResponse(ret)                
+
+
+class OptimizeCheckView(LoginRequiredMixin, TemplateView):
+    model = DBCONF
+    template_name = 'sqlmng/optimize_check.html'
+
+    def post(self, request, *args, **kwargs):
+        data = QueryDict(request.body).dict()
+        env = data.get('env')
+        db_name = data.get('db_name')
+        sql_content = data.get('sql_content')
+        object_db = self.model.objects.get(name=db_name, env=env)
+        username = object_db.user
+        password = prpcrypt.decrypt(object_db.password)
+        address = object_db.address
+        port = object_db.port
+        optimize_bin = settings.OPTIMIZE_BIN
+        if env == '1':
+            cmd = "%s -online-dsn %s:%s@%s:%s/%s -query '%s'" %(optimize_bin, username, password, address, port, object_db, sql_content)
+        else:
+            cmd = "%s -test-dsn %s:%s@%s:%s/%s -query '%s'" %(optimize_bin, username, password, address, port, object_db, sql_content)
+        result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        result = result.stdout.read().decode('utf-8')         
+        return JsonResponse({'status': 0, 'data': result})
+
+        
