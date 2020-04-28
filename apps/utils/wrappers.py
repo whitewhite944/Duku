@@ -54,21 +54,6 @@ def handle_check_permission(func):
             return JsonResponse({'status':403, 'message':'无此操作权限!'})           
     return wrapper
 
-def handle_save_data(func):
-    def wrapper(self, *args, **kwargs):
-        try:
-            return func(self, *args, **kwargs)
-        except Exception as e:
-            code = e.args[0]
-            if code == 1062:
-                status = -1
-                message = e.args[1]
-            else:
-                status = -2
-                message = e.args[0]
-            return JsonResponse({'status': status, 'message': message})
-    return wrapper
-
 def control_permission(func):
     def wrapper(self, *args, **kwargs):
         user = self.request.user

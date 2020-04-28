@@ -25,7 +25,7 @@ class DBConfView(BaseListView):
         queryset = self.model.objects.all()
         return queryset
 
-    @wrappers.handle_save_data
+    @wrappers.handle_except_data
     def post(self, request, *args, **kwargs):
         data = QueryDict(request.body).dict()
         password = data.get('password')
@@ -34,7 +34,7 @@ class DBConfView(BaseListView):
         self.model.objects.create(**data)
         return restful.ok()  
     
-    @wrappers.handle_save_data
+    @wrappers.handle_except_data
     def put(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         data = QueryDict(request.body).dict()

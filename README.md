@@ -10,6 +10,12 @@ SQL审核
 SQL优化
 用户与组的管理
 
+在线体验地址:http://118.25.3.107:1888
+用户名和密码:
+admin 123456
+tiantian 12341234
+test1 12341234
+
 进度列表:公有云API未集成,异步,在开发中.....
 
 ![image](https://github.com/whitewhite944/Duku/blob/master/images/1.png)

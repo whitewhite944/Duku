@@ -81,7 +81,7 @@ class UserView(BaseAccountListView):
         queryset = [user.to_dict for user in queryset]    
         return queryset
 
-    @wrappers.handle_save_data
+    @wrappers.handle_except_data
     def post(self, request, *args, **kwargs):
         data = QueryDict(request.body).dict()
         password = data.get('password')
@@ -94,7 +94,7 @@ class UserView(BaseAccountListView):
             user.groups.add(group_qs[0])
         return restful.ok()
 
-    @wrappers.handle_save_data
+    @wrappers.handle_except_data
     def put(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         data = QueryDict(request.body).dict()
@@ -135,6 +135,7 @@ class APIGroupView(BaseApiView):
         queryset = [i for i in self.model.objects.values('id', 'name')]
         return queryset
 
+    @wrappers.handle_api_permission
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         if pk:
