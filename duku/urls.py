@@ -29,3 +29,6 @@ urlpatterns = [
     re_path('media/(?P<path>.*)$', serve,{"document_root":settings.MEDIA_ROOT}),
     re_path('static/(?P<path>.*)$', serve,{"document_root":settings.STATIC_ROOT}),
 ]
+
+handler404 = 'apps.account.views.page_not_found'
+handler500 = 'apps.account.views.page_error'

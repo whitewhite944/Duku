@@ -81,5 +81,6 @@ class INCEPTIONSQL(BaseModel):
         return ret
 
     class Meta:
+        ordering = ['-id']
         db_table = 'inceptionsql'
         

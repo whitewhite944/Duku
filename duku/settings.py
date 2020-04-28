@@ -27,7 +27,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # INTERNAL_IPS = ('10.60.132.8',)
-INTERNAL_IPS = ('192.168.1.105',)
+# INTERNAL_IPS = ('192.168.1.105',)
 
 
 # Application definition
