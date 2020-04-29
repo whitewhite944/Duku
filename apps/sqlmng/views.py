@@ -22,7 +22,10 @@ class DBConfView(BaseListView):
     template_name = 'sqlmng/dbconf.html'
 
     def get_queryset(self):
+        search = self.request.GET.get('search')
         queryset = self.model.objects.all()
+        if search:
+            queryset = queryset.filter(Q(address__icontains=search) | Q(name__icontains=search)) 
         return queryset
 
     @wrappers.handle_except_data
@@ -121,7 +124,10 @@ class InceptionResultView(BaseListView):
     template_name = 'sqlmng/inception_result.html'
 
     def get_queryset(self):
+        search = self.request.GET.get('search')
         queryset = self.model.objects.all()
+        if search:
+            queryset = queryset.filter(Q(db_name__icontains=search) | Q(committer__icontains=search))         
         return queryset
 
     @wrappers.handle_check_permission

@@ -9,6 +9,7 @@ DBConf.prototype.run = function () {
     self.listenDeleteDBConf();
     self.listenEditModal();
     self.listenEditDBConf();
+    self.listenSearchDBConf();
 };
 
 DBConf.prototype.listenCreateModal = function () {
@@ -129,6 +130,16 @@ DBConf.prototype.listenEditDBConf = function () {
             }
         });
     }); 
+};
+
+DBConf.prototype.listenSearchDBConf = function () {
+    var self = this;
+    var submitBtn = $("#search_btn");
+    submitBtn.click(function (e) {
+        e.preventDefault();
+        var valueInput = $('#search_value').val();
+        window.location.href = '/sqlmng/dbconf/?search=' + valueInput
+    });
 };
 
 $(function () {

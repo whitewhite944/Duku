@@ -18,6 +18,7 @@ Auth.prototype.run = function () {
     self.listenCreateUser();
     self.listenDeleteUser();
     self.listenEditUser();
+    self.listenSearchUser();
 };
 
 Auth.prototype.listenLoginEvent = function () {
@@ -312,6 +313,16 @@ Auth.prototype.listenGetApiUser = function () {
             $('#create_group_name').html(options);    
             $('#edit_group_name').html(options);  
         }
+    });
+};
+
+Auth.prototype.listenSearchUser = function () {
+    var self = this;
+    var submitBtn = $("#search_btn");
+    submitBtn.click(function (e) {
+        e.preventDefault();
+        var valueInput = $('#search_value').val();
+        window.location.href = '/account/user/?search=' + valueInput
     });
 };
 

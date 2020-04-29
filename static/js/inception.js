@@ -9,6 +9,7 @@ Inception.prototype.run = function () {
     self.listenResetTextArea();
     self.showInformation();
     self.listenHandleResult();
+    self.listenSearchResult();
 };
 
 Inception.prototype.listenGetApiEnv = function () {
@@ -295,6 +296,16 @@ Inception.prototype.showInformation = function () {
         }
         informationModal.modal();
         inforamtionContent.html(html);     
+    });
+};
+
+Inception.prototype.listenSearchResult = function () {
+    var self = this;
+    var submitBtn = $("#search_btn");
+    submitBtn.click(function (e) {
+        e.preventDefault();
+        var valueInput = $('#search_value').val();
+        window.location.href = '/sqlmng/inception_result/?search=' + valueInput
     });
 };
 
